@@ -1,6 +1,6 @@
 Express Delight
 ===============
-_Make your Express [Express](http://expressjs.com/) app
+_Make your [Express](http://expressjs.com/) app
 development [Delightful](https://www.youtube.com/watch?v=00rshDuel34)_
 
 ## Body
@@ -25,6 +25,9 @@ the header is present.
 ```
 var Body = require("express-delight").Body;
 ...
+app.use(Body.reader({
+  limit: 1024000 // Default 100kB payload size limit
+}));
 app.use(Body.json());
 ```
 `json` checks for JSON-compatable `Content-Type`s using `req.is("json")`.
@@ -35,6 +38,10 @@ JSON bodies will result in an error response.
 ```
 var Body = require("express-delight").Body;
 ...
+app.use(Body.reader({
+  limit: 1024000 // Default 100kB payload size limit
+}));
+// app.use(Body.json()); too, if you're feeling accomodating...
 app.use(Body.urlencoded());
 ```
 `urlencoded` checks for URL-Encoded `Content-Type`s using `req.is("urlencoded")`.
@@ -51,9 +58,9 @@ app.use(require("express-delight").body());
 ## Errors
 Provides an error handler with response formatting based upon the `Accept`
 header. Controllers can pass an Error object or a Number to `next`. Response
-codes will be read from the error object with precedence
-`error.status || error.statusCode || 500` for Error objects. Numbers will be
-used as the response status with a generic message.
+codes will be read with precedence `error.status || error.statusCode || 500`
+for Error objects. Numbers will be used as the response status with a generic
+error message.
 
 `Errors` also provides the `HTTPError` class and child classes for common error
 codes, allowing for additional data to be included in responses for more
@@ -121,8 +128,13 @@ io.use(Session.io({
   E.g. ["/welcome", "/foo/bar"] white-lists `/welcome`, `/welcome/a/b/c`,
   and `/foo/bar/baz`. Automatically includes `authorize_path`
 
+### TODO
+* Document the MemStore (`Session.Store`) interface.
+* Provide Store interfaces for a few common backends. (Redis/Memcache?)
+
 ## Validate
-Attach assertion testing helpers to request entities.
+Attach assertion testing helpers to request entities. Failed assertions will be caught
+by error-handler middleware.
 ```
 var Validate = require("express-delight").Validate;
 ...
@@ -142,4 +154,5 @@ app.get("/test-2", function(req, res, next) {
 });
 ```
 
-TODO Document all of the methods exposed by validate-able objects. RtFS for now :(
+### TODO
+* Document all of the methods exposed by validate-able objects. RtFS for now :(
