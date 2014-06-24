@@ -108,15 +108,23 @@ Session.startReaper();
 app.use(Session.express({
   // App-specific options
 }));
-// app.use(Delight.session({...}))
+// Or Delight.session(app, {...})
 
-// Socket.IO 1.0 Supoprt!
+// Socket.IO 1.0 Session Supoprt!
 io.use(Session.io({
   // Socket-specific options
 }));
 ```
 
 ### Options
+Pass to `Session.set` to update all session handlers' defaults, or to the
+handler definition (`Session.express({options})`) to override the global
+defaults. E.g passing options to the app handler will not affect the
+configuration of any Socket.IO handlers, and vice versa.
+
+_Note that overriding `store` for the app handler will probably break your
+Socket.IO session handling. Use `Session.set`_
+
 * `store` The session storage module
 * `cookie_name` The name of the session cookie. Default "Session-ID"
 * `maxage` The inactivity timeout of a session, in minutes. Default 60
