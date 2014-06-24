@@ -1,0 +1,14 @@
+<% include include/top.ejs -%>
+<!-- error -->
+    <div class="container">
+      <div class="page-header">
+        <h1>Error&nbsp;<small><%= req.path %></small></h1>
+      </div>
+      <div class="alert alert-danger">
+        <strong><%= error.name %></strong>&nbsp;<em><%= error.status %></em>&nbsp;<%= error.message %>
+      </div>
+      <% if(options.stack && error.stack) { -%>
+      <pre><%= error.stack %></pre>
+      <% } -%>
+    </div>
+<% include include/bottom.ejs -%>
