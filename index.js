@@ -1,9 +1,12 @@
-var Body = exports.Body = require("lib/body");
-var Errors = exports.Errors = require("lib/error");
-var Session = exports.Session = require("lib/session");
-var Validate = exports.Validate = require("lib/validate");
+var Body = exports.Body = require("./lib/body");
+var Errors = exports.Errors = require("./lib/error");
+var Session = exports.Session = require("./lib/session");
+var Validate = exports.Validate = require("./lib/validate");
 
+var Path = require("path");
+var Static = exports.static = require("serve-static");
 exports.favicon = require("serve-favicon");
+exports.__dirname = __dirname;
 
 exports.util = function(app) {
   // Expose helper modules in templates
@@ -18,10 +21,14 @@ exports.util = function(app) {
   });
 
   // Static Assets
-  app.use("/delight-assets", Static(Path.resolve(__dirname, "../assets")));
+  app.use("/delight-assets", Static(Path.resolve(__dirname, "assets")));
 };
 
-// Body Parsers
+exports.errors = function(app, options) {
+  app.use(Errors.notFound);
+  app.use(Errors(options));
+};
+
 exports.body = function(app, options) {
   app.use(Body.reader(options));
   app.use(Body.json(options));

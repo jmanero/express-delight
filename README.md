@@ -76,7 +76,9 @@ app.use(app.router);
 // After the router
 app.use(Errors({
   views: false, // Boolean: Use app's views to render HTML. Default `false`
-  template: "error.ejs" // Template to render for errors. Only for `views: true`
+  template: "error.ejs", // Template to render for errors. Only for `views: true`
+  console: false, // Write errors to STDOUT
+  stack: false // Include stack traces in HTTP responses
 }));
 ...
 
@@ -164,3 +166,10 @@ app.get("/test-2", function(req, res, next) {
 
 ### TODO
 * Document all of the methods exposed by validate-able objects. RtFS for now :(
+
+## util
+Add template helpers to `res.locals` and serve included static assets
+from `/delight-assets`.
+```
+Delight.util(app);
+```

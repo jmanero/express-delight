@@ -1,6 +1,6 @@
 {
   "name": "express-delight",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Make your Express apps delightful",
   "author": "John Manero <jmanero@dyn.com>",
   "license": "MIT",
